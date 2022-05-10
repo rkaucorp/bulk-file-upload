@@ -22,6 +22,9 @@ fs.readdir(path.resolve(__dirname, "resume"), async (err, files) => {
 });
 
 uploadPdf.process(async (job) => {
+  console.info(
+    `UpLoading ############# -----${job.data.file} file is being uploaded.`
+  );
   await documentUpload(job.data.file);
   return job.data.file;
 });
@@ -32,6 +35,7 @@ uploadPdf.on("completed", (job, result) => {
 });
 
 removeFileQueue.process(async (job) => {
+  console.info(`${job.data.file} file is being deleted.`);
   removeFile(job.data.file);
 });
 
@@ -51,7 +55,7 @@ async function documentUpload(file) {
       "http://localhost:8087/upload/resume",
       formData
     );
-    console.log(response.data, "response data");
+    // console.log(response.data, "response data");
     return response.data;
   } catch (error) {
     console.log(error);
