@@ -12,7 +12,7 @@ const uploadPdf = new Queue("uploadPdf", {
 });
 const removeFileQueue = new Queue("removeFile");
 
-fs.readdir(path.resolve(__dirname, "cv"), async (err, files) => {
+fs.readdir(path.resolve(__dirname, "resume"), async (err, files) => {
   if (err) throw err;
   for (let file of files) {
     await uploadPdf.add({
@@ -42,7 +42,7 @@ removeFileQueue.on("completed", (job, result) => {
 
 async function documentUpload(file) {
   try {
-    const fileStream = fs.createReadStream(`./cv/${file}`);
+    const fileStream = fs.createReadStream(`./resume/${file}`);
     let formData = new FormData();
 
     formData.append("document", fileStream, file);
@@ -59,7 +59,7 @@ async function documentUpload(file) {
 }
 
 function removeFile(file) {
-  fs.unlinkSync(`./cv/${file}`);
+  fs.unlinkSync(`./resume/${file}`);
   return true;
 }
 
